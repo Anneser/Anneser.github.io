@@ -19,8 +19,7 @@ My focus is to understand state-dependent information processing and neuromodula
 
 # Education
 
-- **Dr. rer. nat. in Neuroscience**, Max-Planck-Institute for Brain Research / Goethe University Frankfurt, 2021  
-  Thesis: *Title*
+- **Dr. rer. nat. in Neuroscience**, [Max-Planck-Institute for Brain Research](https://brain.mpg.de/home/) / Goethe University Frankfurt, 2021  
 
 - **M.Sc. in Molecular Neuroscience**, Ruprecht-Karls-University Heidelberg, 2016
 
@@ -28,7 +27,7 @@ My focus is to understand state-dependent information processing and neuromodula
 
 ---
 
-# Higher Education 
+# Advanced Courses 
 
 - Transsylvanian Experimental Neuroscience Summer School (2023)
 Cluj-Napoca, Rumania
