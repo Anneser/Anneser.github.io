@@ -1,0 +1,32 @@
+---
+title: "Welcome!"
+about: 
+  id: hero-heading
+  template: solana
+  image: images/Lukas_picture.jpg
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/Anneser
+    - icon: linkedin
+      text: Linkedin
+      href: https://www.linkedin.com/in/lukas-anneser
+    - icon: orcid
+      text: ORCID
+      href: https://orcid.org/my-orcid?orcid=0000-0001-5870-5722
+---
+## neuromodulatory control of circuit function
+:::{#hero-heading}
+Hi, welcome to my page! I am postdoc in the field of Systems Neuroscience and I am interested in state-dependent information processing in neural circuits.
+
+## Education
+
+Max Planck Institute for Brain Research, Frankfurt | Germany 
+<br> PhD in Neuroscience | Sept 2016 - June 2021
+
+Ruprecht Karls University, Heidelberg | Germany 
+<br> M. Sc. in Molecular Neuroscience | Sept 2013 - Aug 2016
+
+Friedrich Alexander University, Erlangen | Germany 
+<br> B. Sc. in Molecular Medicine | Sept 2010 - Aug 2013
+

@@ -1,0 +1,135 @@
+---
+title: "CV"
+format: html
+# page-layout: article
+# Add to navigation if needed
+# navbar:
+#   title: "CV"
+#   href: cv.qmd
+---
+
+<!-- Start editing below -->
+
+# About Me
+
+A well-rounded neuroscientist with strong medical, molecular biology, and bioinformatic background.
+My focus is to understand state-dependent information processing and neuromodulation.
+
+---
+
+# Education
+
+- **Dr. rer. nat. in Neuroscience**, Max-Planck-Institute for Brain Research / Goethe University Frankfurt, 2021  
+  Thesis: *Title*
+
+- **M.Sc. in Molecular Neuroscience**, Ruprecht-Karls-University Heidelberg, 2016
+
+- **B.Sc. in Your Molecular Medicine**, Friedrich-Karls-University Erlangen-Nuremberg, 2013
+
+---
+
+# Higher Education 
+
+- Transsylvanian Experimental Neuroscience Summer School (2023)
+Cluj-Napoca, Rumania
+
+- Neural Systems and Behavior, MBL Summer School (2019)
+Woods Hole, USA
+
+- Neural Control of Instinctive and Innate Behavior, FENS &
+Hertie Foundation Winter School (2019)
+Obergurgl, Austria
+
+
+---
+
+# Awards & Honors
+
+- Otto-Hahn-Medal, Max Planck Society, 2023
+- Longterm Postdoctoral Fellowship, EMBO, 2022
+- Cord-Michael-Becker Prize, Friedrich Alexander University, 2022
+- Finalist of the German Dissertation Award, Körber Foundation, 2022
+- Share Your Research competition winner, iBiology, 2022
+- Heiligenberg Travel Grant, International Society for Neuroethology, 2020
+- Poster Prize, FENS Winterschool Neural Control of Instinctive and Innate Behavior, 2019
+- Scholarship, German Academic Scholarship Foundation, 2011
+
+---
+# Presentations
+
+## Talks
+
+- **2024** – EMBO Fellows Meeting, Heidelberg  
+- **2024** – iRTG Seminar, Oldenburg  
+- **2024** – Basel Neuroscience Workshop, Basel  
+- **2023** – Zebrafish Neural Circuits & Behavior Seminar *(virtual)*  
+- **2023** – International Biophysics Workshop, LUMS, Pakistan *(virtual)*  
+- **2021** – Max Planck Society PhDnet Symposium *(virtual)*  
+- **2021** – Neurobiology Department Seminar, University of Konstanz  
+- **2021** – Biologicum Department Seminar, Goethe University Frankfurt  
+- **2021** – Zebrafish Husbandry Workshop *(virtual)*  
+- **2020** – JRNLclub *(virtual)*  
+- **2019** – Junior Scientist Workshop on Mechanistic Cognitive Neuroscience, Janelia, Ashburn  
+- **2019** – Neural Systems and Behavior Course, MBL, Woods Hole  
+
+## Posters
+
+- **October 2024** – Anneser L, Satou C, Hotz HR, Caudullo T, Javier A, van Krugten J, Eckhard J, Palacios Flores K, Friedrich R.  
+  *Molecular, functional, and behavioral analysis of neuromodulatory networks in the zebrafish telencephalon.*  
+  EMBO Fellows Meeting, October 25–29, Heidelberg, Germany.
+
+- **June 2024** – Anneser L, Satou C, Hotz HR, Caudullo T, Javier A, van Krugten J, Eckhard J, Palacios Flores K, Friedrich R.  
+  *Molecular, functional, and behavioral analysis of neuromodulatory networks in the zebrafish telencephalon.*  
+  FENS Forum, June 25–29, Vienna, Austria.
+
+- **May 2023** – Anneser L, Satou C, Friedrich R.  
+  *Combinatorial logic of neuromodulatory systems in the zebrafish telencephalon.*  
+  Gordon Research Conference on Modulation of Neural Circuits and Behavior, May 20–26, Les Diablerets, Switzerland.
+
+- **July 2022** – Anneser L, Satou C, Friedrich R.  
+  *Combinatorial logic of neuromodulatory systems in the zebrafish telencephalon.*  
+  International Conference on Neuroethology, July 25–28, Lisbon, Portugal.
+
+- **November 2019** – Anneser L, Alcantara IC, Gemmer A, Soojin R, Schuman EM.  
+  *Brain transcriptional dynamics and social environment information.*  
+  Workshop on Mechanistic Cognitive Neuroscience, October 27 – November 1, Janelia, Ashburn, USA.
+
+- **January 2019** – Anneser L, Alcantara IC, Gemmer A, Soojin R, Schuman EM.  
+  *Effect of social isolation on gene transcription in zebrafish.*  
+  FENS-Hertie Winter School: Neural Control of Instinctive and Innate Behavior, January 6–12, Obergurgl, Austria.
+
+- **November 2018** – Anneser L, Alcantara IC, Gemmer A, Soojin R, Schuman EM.  
+  *Impact of the social environment on gene expression in zebrafish.*  
+  5th Imaging Structure and Function in the Zebrafish Brain Conference, November 30 – December 2, Brighton, UK.
+
+# Publications
+
+- **Anneser L\***, Kappel JM\* (2025).  
+  [Conserved multisensory integration of social cues in the thalamus.](https://doi.org/10.1016/j.isci.2024.111678)  
+  *iScience*, 28(1):111678.
+  
+- **Anneser L**, Satou C, Hotz HR, Friedrich R (2024).  
+  [Molecular organization of neuronal cell types and neuromodulatory systems in the zebrafish telencephalon.](https://doi.org/10.1016/j.cub.2023.12.003)  
+  *Current Biology*, 34, 1–15. DOI: [10.1101/2023.10.04.560846](https://doi.org/10.1101/2023.10.04.560846)
+
+- Gemmer A, Mirkes K, **Anneser L**, Eilers T, Kibat C, Mathuru A, Ryu S, Schuman EM (2022).  
+  [Oxytocin receptors influence the development and maintenance of social behavior in zebrafish (*Danio rerio*).](https://doi.org/10.1101/2021.06.26.449566)  
+  *Scientific Reports*, 12(4322). DOI: [10.1038/s41598-022-07990-y](https://doi.org/10.1038/s41598-022-07990-y)
+
+- **Anneser L**, Gemmer A, Eilers T, Alcantara IC, Loos AY, Ryu S, Schuman EM (2022).  
+  [The neuropeptide Pth2 modulates social behavior and anxiety in zebrafish.](https://doi.org/10.1016/j.isci.2022.103868)  
+  *iScience*, 25(3):103868. DOI: [10.1016/j.isci.2022.103868](https://doi.org/10.1016/j.isci.2022.103868)
+
+- Toribio-Florez D, **Anneser L**, De Oliveira N, Pallandt M, Tunn I, Windel H (2021).  
+  [Where do early-career researchers stand on Open Science Practices? A survey within the Max Planck Society.](https://www.frontiersin.org/articles/10.3389/frma.2020.586992/full)  
+  *Frontiers in Research Metrics and Analytics*. DOI: [10.3389/frma.2020.586992](https://doi.org/10.3389/frma.2020.586992)
+
+- **Anneser L**, Alcantara IC, Gemmer A, Mirkes K, Ryu S, Schuman EM (2020).  
+  [The Neuropeptide Pth2 Dynamically Senses Others via Mechanosensation.](https://www.nature.com/articles/s41586-020-2988-z)  
+  *Nature*, 588(7839):653–657.
+
+- Mishra HK, Prots I, Havlicek S, Kohl Z, Perez-Branguli F, Boerstler T, **Anneser L**, et al. (2016).  
+  [GSK3β-dependent dysregulation of neurodevelopment in SPG11-patient iPSC model.](https://onlinelibrary.wiley.com/doi/full/10.1002/ana.24633)  
+  *Annals of Neurology*, 79(5):826–840.
+
+\* _Corresponding author_

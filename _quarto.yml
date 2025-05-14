@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+  
+website:
+  title: "Lukas Anneser"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: publications.qmd
+      - href: research.qmd
+      - href: CV.qmd
+
+format:
+  html:
+    theme:
+      - sketchy
+      - brand
+    css: styles.css
+    toc: true
+
+
+
