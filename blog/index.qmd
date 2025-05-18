@@ -1,0 +1,9 @@
+---
+title: "Blog"
+listing: 
+  type: default
+  sort: "date desc"
+  categories: true
+---
+
+Welcome to my blog! Here you’ll find posts on neuroscience, coding, and research life.

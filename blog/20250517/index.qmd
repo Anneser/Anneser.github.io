@@ -1,0 +1,16 @@
+---
+title: "Bridging levels - the importance of cell type identity"
+draft: true
+author: "Lukas Anneser"
+date: 2025-05-17
+categories: [neuroscience, journal club, analysis]
+---
+ 
+## From single neuron recordings to population level analysis
+Over recent decades, one major theme of neuroscience was a switch from the analysis of individual neurons to recording ever-larger numbers of cells and trying to understand their joint behavior - the population activity. In many ways, this development was unavoidable and the result of a simple numbers game: while some invertebrate species only have a small number of highly stereotyped neurons (in the nematode C. elegans, all 302 neurons are even uniquely named and can be identified across animals), most animals have far over 100 000 neurons. As one enters the class of mammals, that number can safely be assumed to be in the millions. 
+
+In order to better understand what the concurrent activity in all these cells mean, it is not sufficient to simply increase the number of neurons one records from. In the end, one is left with a gigantic matrix to make sense of and without a way to simplify, that is rather daunting task . One important insight was that in a population of neurons, the activity of some subpopulations tends to be correlated. Depending on the strength of correlations, dimensionality reduction techniques such as principal component analysis can be applied, allowing for a lower-dimensional representation of the dataset without sacrificing too much variability. Treating neuronal population recordings this way allowed for fascinating discoveries, showcasing how the topology of the subspace carved out by neuronal dynamics is intricately linked to the function of the circuit. 
+
+Of course, there is no free lunch and [data processing can only ever destroy information](https://en.wikipedia.org/wiki/Data_processing_inequality). What is sacrificed in this context is knowledge about individual cells and their responses. Now, one might assume that the trade-off is worth it, but progress in biology is dependent on the combination of insights on [different levels of understanding](https://global.oup.com/academic/product/explaining-the-brain-9780199299317?cc=de&lang=en&). I recently came across a really interesting paper from the lab of [Liset Menendez de la Prida](https://cajal.csic.es/en/neural-circuits/), that is beautifully illustrating this point. The publication is called [*Cell-type-specific manifold analysis discloses independent geometric transformations in the hippocampal spatial code*](https://doi.org/10.1016/j.neuron.2025.01.022) and is quite a read. Julio Esparza and colleagues try to understand the role of genetically defined subpopulations of neurons in the hippocampal subregion CA1 in the formation of spatial representations. 
+
+## Hippocampal representations of a linear track 
