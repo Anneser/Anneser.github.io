@@ -79,9 +79,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -178,7 +178,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YW5hbHlzaXM=">analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="am91cm5hbCUyMGNsdWI=">journal club <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV1cm9zY2llbmNl">neuroscience <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -208,7 +208,40 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="bmV1cm9zY2llbmNlJTJDam91cm5hbCUyMGNsdWIlMkNhbmFseXNpcw==" data-listing-date-sort="1749333600000" data-listing-file-modified-sort="1749379523598" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1216">
+<div class="thumbnail"><a href="../blog/20250517/index.html" class="no-external">
 
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/20250517/index.html" class="no-external">Bridging levels - the importance of cell type identity</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('bmV1cm9zY2llbmNl'); return false;">neuroscience</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('am91cm5hbCUyMGNsdWI='); return false;">journal club</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">analysis</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/20250517/index.html" class="no-external">
+Over recent decades, one major theme of neuroscience was a switch from the analysis of individual neurons to recording ever-larger numbers of cells and trying to understand…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/20250517/index.html" class="no-external">
+<div class="listing-date">
+Jun 8, 2025
+</div>
+<div class="listing-author">
+Lukas Anneser
+</div>
+</a>
+</div>
+</div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div></main> <!-- /main -->
