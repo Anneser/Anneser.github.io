@@ -1,6 +1,5 @@
 ---
 title: "Bridging levels - the importance of cell type identity"
-draft: false
 author: "Lukas Anneser"
 date: 2025-06-08
 categories: [neuroscience, journal club, analysis]
