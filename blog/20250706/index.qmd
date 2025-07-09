@@ -24,7 +24,7 @@ Another fun story is the one of parvalbumin-expressing interneurons. If you are 
 
 *   PV (parvalbumin)
 *   CCK (cholecystokinin)
-*   VIP (vasointestinal peptide)
+*   VIP (vasoactive intestinal peptide)
 *   SST (somatostatin) 
 
 To find these kind of markers was an amazing step forward because it helped to analyze whether different kinds of interneuron displayed particular connectivity patterns or responded only in certain situations. However, referring to interneurons by the marker they express (it is quite common to say something like "SST interneurons") might also lead to the assumption that a PV interneuron in a a chimpanzee fullfills the same function than in a rodent. It is a good hypothesis, but there are lots of idiosyncracies in different species and assumptions like these have to be carefully validated. Conversely, one might look for PV interneurons in lizards and not find any, concluding that this cell type is missing and only evolved later. In reality, PV interneurons [exist in lizards and simply do not express PV](https://www.science.org/doi/10.1126/science.abp8202). What a bummer, when the gene the cell type is named after is simply not expressed. 
