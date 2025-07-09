@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Lukas Anneser">
+<meta name="dcterms.date" content="2025-07-06">
 
-<title>Blog – Lukas Anneser</title>
+<title>False friends in biology – Lukas Anneser</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +25,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f0462af1f1fab958f01fce22f6ac7405.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f0462af1f1fab958f01fce22f6ac7405.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,67 +69,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -139,7 +81,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Lukas Anneser</span>
     </a>
   </div>
@@ -150,19 +92,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../publications.html"> 
+    <a class="nav-link" href="../../publications.html"> 
 <span class="menu-text">publications</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../CV.html"> 
+    <a class="nav-link" href="../../CV.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../blog/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -177,21 +119,47 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="YW5hbHlzaXM=">analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SFBT">HPS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="am91cm5hbCUyMGNsdWI=">journal club <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV1cm9zY2llbmNl">neuroscience <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d29ya2luZyUyMGluJTIwc2NpZW5jZQ==">working in science <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#thought-follows-language" id="toc-thought-follows-language" class="nav-link active" data-scroll-target="#thought-follows-language">Thought follows language</a></li>
+  <li><a href="#language-leads-astray" id="toc-language-leads-astray" class="nav-link" data-scroll-target="#language-leads-astray">Language leads astray</a>
+  <ul class="collapse">
+  <li><a href="#a-map-needs-to-reflect-the-territory" id="toc-a-map-needs-to-reflect-the-territory" class="nav-link" data-scroll-target="#a-map-needs-to-reflect-the-territory">A map needs to reflect the territory</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Blog</h1>
-</div>
+<h1 class="title">False friends in biology</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">working in science</div>
+    <div class="quarto-category">HPS</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lukas Anneser </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 6, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -201,82 +169,35 @@ window.Quarto = {
 </header>
 
 
-<p>Welcome to my blog! Here you’ll find posts on neuroscience, coding, and research life.</p>
+<section id="thought-follows-language" class="level1">
+<h1>Thought follows language</h1>
+<p>If you have ever tried to learn a new language, you might have encountered <em>false friends</em>. These words sound awfully familiar to a word in your native tongue but their meaning is completely different. Many a german has stumbled over the english word <em>become</em>, which seems kinda close to the german <em>bekommen</em> (to get), leading to the infamous joke of the german asking the waiter when he might become his schnitzel (reply: “I hope never, sir”).</p>
+<p>In a way, it is only natural that we try to map the meaning of words to the semantic information they evoke (which might be distinct from the semantic information they actually carry). In many cases, this might be used to progressively adapt our language to better delineate what we actually want to say - not much sense in using words that our conversation partners will associate with concepts different from what we actually want to discuss.</p>
+<p>All the more one would suspect this to hold true in the context of highly specialized expert languages. As new concepts are worked out, special terms are invented and defined to precisely convey the technicalities inherent to the conceptual space. However, for reasons to be discussed, this does not hold true for biology.</p>
+</section>
+<section id="language-leads-astray" class="level1">
+<h1>Language leads astray</h1>
+<p>Studying biology is wild. On many fronts, empiricism outpaces theory by a far margin and it is not at all apparent when this trend might change. That means that whenever a biologist finds something new - be it a genetic sequence, a protein, a cell type or some previously unknown process - they have no idea about what its characteristic features are and what it might be good for in a wider context. In many cases, whatever appeared to be a relevant characteristic inspired nomenclature.</p>
+<p>This led to some remarkable naming decisions. Wanna take a guess what the function of the <em>prolactin-releasing peptide</em> (PrRP) might be? As a matter of fact, it appears to do quite many things, but the release of prolactin is a secondary effect at best. In <a href="https://www.nature.com/articles/30515">1998</a>, scientists specifically set out to find a molecule triggering the release of prolactin and found PrRP to be quite efficient <em>in vitro</em>. However, rodents models with non-functional PrRP or its cognate receptor have quite normal prolactin levels. They are, however, obese, indicating a role in metabolism rather than the control of prolactin release.</p>
+<p>What about another example? Where do you think parathyroid hormone 2 (Pth2) is produced? Only a fool would be believe it to be the parathyroid gland. Obviously, the cells expressing it are found either in the thalamus or, depending on the species, also the medulla-pons junction. But at the very least it is a hormone, correct? Alas, as far as we know, it does not enter the bloodstream, so it does not qualify as such. This particular protein was identified in the <a href="https://pubmed.ncbi.nlm.nih.gov/10526330/">90s by Ted Usdin</a>, who, back then, named it <em>tuberoinfundibular peptide of 39 amino acids length</em> (TIP39). It was identified as the endogenous ligand binding to a curious receptor found in the brain whose sequence was quite similar to that of the parathyroid hormone receptor. It was thus later re-named to convey that similarity. Take note of how that decision was made - one system was already described and well-known, so the one to be discovered later was simply baptized accordingly and a number attached.</p>
+<p>Another fun story is the one of parvalbumin-expressing interneurons. If you are interested in neuroscience and cortical circuits on any level, you probably have heard of the classical marker genes distinguishing the interneurons found in mammalian circuits:</p>
+<ul>
+<li>PV (parvalbumin)</li>
+<li>CCK (cholecystokinin)</li>
+<li>VIP (vasointestinal peptide)</li>
+<li>SST (somatostatin)</li>
+</ul>
+<p>To find these kind of markers was an amazing step forward because it helped to analyze whether different kinds of interneuron displayed particular connectivity patterns or responded only in certain situations. However, referring to interneurons by the marker they express (it is quite common to say something like “SST interneurons”) might also lead to the assumption that a PV interneuron in a a chimpanzee fullfills the same function than in a rodent. It is a good hypothesis, but there are lots of idiosyncracies in different species and assumptions like these have to be carefully validated. Conversely, one might look for PV interneurons in lizards and not find any, concluding that this cell type is missing and only evolved later. In reality, PV interneurons <a href="https://www.science.org/doi/10.1126/science.abp8202">exist in lizards and simply do not express PV</a>. What a bummer, when the gene the cell type is named after is simply not expressed.</p>
+<section id="a-map-needs-to-reflect-the-territory" class="level2">
+<h2 class="anchored" data-anchor-id="a-map-needs-to-reflect-the-territory">A map needs to reflect the territory</h2>
+<p>It would be easy to extend the list of examples, but I think I made my point. Biology is at a crossroads, where technical terms become unnecessarily opaque and the meaning evoked by words is not at all the meaning they carry. In specialist communities, one can get away with this for a certain period of time, but the very point of having technical terms is to make a specific concept extremely clear. Language is a kind of map that helps us navigate complex conceptual territories. If you encounter a map which uses the tree symbol to show roads and reverses the usual colors of land and sea, it will rather confuse you than help you get from A to B. In particular if the community making these maps doesn’t even think it necessary to explain the new standard. Obviously, <a href="https://www.lesswrong.com/w/the-map-is-not-the-territory">the map is not the territory</a>, but it should reflect it as well as it can to be useful.</p>
+<p>I do not have a simple solution to the widespread use of misnomer in biology. Mostly, they came into being as completely sound and rational naming decisions and later, they were not changed as to not pollute their trail through the scientific literature (it is quite the inconvenience to a proper literature search if, for example, genes of interest have been renamed repeatedly). However, as we go on, we should be careful not to muddle our thinking by using opaque words but rather seek clarity in both thought and language.</p>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="d29ya2luZyUyMGluJTIwc2NpZW5jZSUyQ0hQUw==" data-listing-date-sort="1751752800000" data-listing-file-modified-sort="1752088690063" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1018">
-<div class="thumbnail"><a href="../blog/20250706/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../blog/20250706/index.html" class="no-external">False friends in biology</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d29ya2luZyUyMGluJTIwc2NpZW5jZQ=='); return false;">working in science</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('SFBT'); return false;">HPS</div>
-
-</div>
-<div class="delink listing-description"><a href="../blog/20250706/index.html" class="no-external">
-If you have ever tried to learn a new language, you might have encountered <em>false friends</em>. These words sound awfully familiar to a word in your native tongue but their…<em></em><em></em>
-</a></div>
-</div>
-<div class="metadata">
-<a href="../blog/20250706/index.html" class="no-external">
-<div class="listing-date">
-Jul 6, 2025
-</div>
-<div class="listing-author">
-Lukas Anneser
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="bmV1cm9zY2llbmNlJTJDam91cm5hbCUyMGNsdWIlMkNhbmFseXNpcw==" data-listing-date-sort="1749333600000" data-listing-file-modified-sort="1752088694254" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1216">
-<div class="thumbnail"><a href="../blog/20250517/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../blog/20250517/index.html" class="no-external">Bridging levels - the importance of cell type identity</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmV1cm9zY2llbmNl'); return false;">neuroscience</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('am91cm5hbCUyMGNsdWI='); return false;">journal club</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">analysis</div>
-
-</div>
-<div class="delink listing-description"><a href="../blog/20250517/index.html" class="no-external">
-Over recent decades, one major theme of neuroscience was a switch from the analysis of individual neurons to recording ever-larger numbers of cells and trying to understand…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../blog/20250517/index.html" class="no-external">
-<div class="listing-date">
-Jun 8, 2025
-</div>
-<div class="listing-author">
-Lukas Anneser
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
