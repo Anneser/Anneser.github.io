@@ -3,6 +3,9 @@ title: "Bridging levels - the importance of cell type identity"
 author: "Lukas Anneser"
 date: 2025-06-08
 categories: [neuroscience, journal club, analysis]
+comments: 
+  utterances: 
+    repo:  Anneser/blogComments
 ---
  
 ## From single neuron recordings to population level analysis

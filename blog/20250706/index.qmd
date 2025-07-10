@@ -4,6 +4,9 @@ author: "Lukas Anneser"
 date: 2025-07-06
 categories: [working in science, HPS]
 draft: False
+comments: 
+  utterances: 
+    repo:  Anneser/blogComments
 ---
 
 # Thought follows language
