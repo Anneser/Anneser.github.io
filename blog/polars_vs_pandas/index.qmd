@@ -385,9 +385,9 @@ def plot_phase_grouped(summary: pd.DataFrame, phase: str, title_suffix: str = ""
 
 # Usage: one figure per phase, each shows 100k/1M/5M together
 plot_phase_grouped(summary_df, "IO", title_suffix="CSV read")
-plot_phase_grouped(summary_df, "Filtering and Selecting")
-plot_phase_grouped(summary_df, "GroupBy")
-plot_phase_grouped(summary_df, "Merging & Melting")
+plot_phase_grouped(summary_df, "Filter/Select/Transform")
+plot_phase_grouped(summary_df, "GroupBy & Window")
+plot_phase_grouped(summary_df, "Join & Melt")
 ```
 As you can see, Polars does indeed deliver. If your datasets are not too big, it should not matter too much, but once you enter millions of rows or have to load dozens of datasets, Polars really shines. Fair enough, for the I/O section, it did not make too much sense to compare scan>collect with read_csv() (for reasons outlined above), but if you fully commit and combine scanning with the other data wrangling procedure described here, you will get the benefit. Even though, loading times alone are probably making a good case for trying Polars.
 

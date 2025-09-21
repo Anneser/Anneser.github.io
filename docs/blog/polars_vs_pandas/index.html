@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-analysis---the-cookbook" class="level1">
 <h1>Data analysis - the cookbook</h1>
 <p>If you analyse data using python, most likely you have developed some good out-of-the box routines you can apply to most of your datasets. Probably you start with a manual inspection of the data types, settle on a suitable approach to read in files, follow along with some sanity checks and solid data visualization to get a feeling for the data at hand. Most likely, though, you start by typing the following:</p>
-<div id="6af08ea4" class="cell" data-execution_count="1">
+<div id="836f3fcc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="cute-pandas-fast-polars" class="level1">
 <h1>Cute Pandas, fast Polars</h1>
 <p>I happened to come across this library a little while ago and was intrigued by their promise: similar capabilites as Pandas, but at a fraction of the time needed for execution. The edge comes from two major factors: First, the library is written in Rust, known <a href="https://kornel.ski/rust-c-speed">to rival C</a>, in particular when it comes to parallelization. Second, it introduces lazy evaluation (computations are only executed when needed) and query optimization (we will come to that). On their website, [pola.rs][(https://pola.rs/)] (I do find it funny…), they claim a <a href="https://pola.rs/posts/benchmarks/">time advantage over pandas for a common data wrangling operation of roughly 90-fold</a>. If that is not enough to get you interested, you never had to run you pipeline over night (or several days) and reading further might be a genuine waste of time for you. Anyway, I wanted to see whether I get similar results. Some of the most typical operations you want to apply to your data concern I/O (input/output, so the reading and writing of files), computation of some sort with the data loaded in memory and the transformation of the dataset (e.g., to tidy format). I created three datasets with random numbers across three columns and 100.000, 1.000.000, or 5.000.000 rows. Obviously, there could be bigger datasets, but I daresay this should cover typical use cases. If you want to re-create this for yourself, here is the code for the random datasets:</p>
-<div id="764bd2cb" class="cell" data-execution_count="2">
+<div id="acf45826" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time, gc, os, statistics <span class="im">as</span> stats</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The cell above will create the three example datasets in the directory from which you run the script. I admit I was not very creative (sales.csv is a pretty common toy dataset), but feel free to adapt with columns and data types more suitable for your use cases. The next step was to create a quick function to time the execution of the typical data wrangling procedures:</p>
-<div id="8adb33ed" class="cell" data-execution_count="3">
+<div id="a3f1e1f1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timer_samples(fn, repeat<span class="op">=</span><span class="dv">5</span>):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> gc, time, statistics <span class="im">as</span> stats</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> []</span>
@@ -321,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="merging-and-tidying-up" class="level1">
 <h1>Merging and Tidying up</h1>
 <p>A last common approach is data reshaping. Many kinds of analysis require the dataset to exist in a certain format and not always is a simple transpose the answer. I implemented a simple merging and melting operation for both Pandas and Polars, now let us see how execution speed differs for the tasks outlined above. In the benchmarking, I differentiate between I/O and computation on loaded datasets but keep in mind that Polars really shines by combining scanning, computation, and collection.</p>
-<div id="32ae04e4" class="cell" data-execution_count="4">
+<div id="bbd077d6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Expand cell</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bench_one_dataset_sampled(path: <span class="bu">str</span>, repeat: <span class="bu">int</span> <span class="op">=</span> <span class="dv">7</span>):</span>
@@ -500,31 +500,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>(          dataset                    phase               variant  min_ms  \
- 0  sales_100k.csv                       IO       pandas read_csv    25.5   
- 1  sales_100k.csv                       IO       polars read_csv     1.9   
+ 0  sales_100k.csv                       IO       pandas read_csv    25.3   
+ 1  sales_100k.csv                       IO       polars read_csv     1.8   
  2  sales_100k.csv                       IO  polars scan-&gt;collect     2.9   
- 3  sales_100k.csv  Filter/Select/Transform                pandas     1.1   
+ 3  sales_100k.csv  Filter/Select/Transform                pandas     1.2   
  4  sales_100k.csv  Filter/Select/Transform          polars eager     3.5   
  
     median_ms  mean_ms  std_ms  n  
- 0       26.2     26.5     0.9  7  
- 1        2.0      2.3     0.7  7  
+ 0       25.7     25.9     0.8  7  
+ 1        2.1      2.4     0.7  7  
  2        3.1      3.4     0.7  7  
- 3        1.2      1.3     0.2  7  
- 4        3.6      3.7     0.3  7  ,
+ 3        1.3      1.3     0.1  7  
+ 4        3.9      3.9     0.3  7  ,
            dataset phase          variant  run    ms
- 0  sales_100k.csv    IO  pandas read_csv    1  27.9
- 1  sales_100k.csv    IO  pandas read_csv    2  26.0
- 2  sales_100k.csv    IO  pandas read_csv    3  25.9
- 3  sales_100k.csv    IO  pandas read_csv    4  28.0
- 4  sales_100k.csv    IO  pandas read_csv    5  25.5)</code></pre>
+ 0  sales_100k.csv    IO  pandas read_csv    1  27.7
+ 1  sales_100k.csv    IO  pandas read_csv    2  25.7
+ 2  sales_100k.csv    IO  pandas read_csv    3  25.5
+ 3  sales_100k.csv    IO  pandas read_csv    4  25.7
+ 4  sales_100k.csv    IO  pandas read_csv    5  26.0)</code></pre>
 </div>
 </div>
 </section>
 <section id="comparison-of-pandas-and-polars-for-common-data-wrangling-procedures" class="level1">
 <h1>Comparison of Pandas and Polars for common data wrangling procedures</h1>
 <p>Alright, let’s visualize the results:</p>
-<div id="62f5a8ff" class="cell" data-execution_count="5">
+<div id="e47834b0" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Expand cell</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouped bars: one figure per phase, three datasets in one plot</span></span>
@@ -593,9 +593,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage: one figure per phase, each shows 100k/1M/5M together</span></span>
 <span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"IO"</span>, title_suffix<span class="op">=</span><span class="st">"CSV read"</span>)</span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"Filtering and Selecting"</span>)</span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"GroupBy"</span>)</span>
-<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"Merging &amp; Melting"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"Filter/Select/Transform"</span>)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"GroupBy &amp; Window"</span>)</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"Join &amp; Melt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -604,10 +604,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>(no rows for phase: Filtering and Selecting)
-(no rows for phase: GroupBy)
-(no rows for phase: Merging &amp; Melting)</code></pre>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>As you can see, Polars does indeed deliver. If your datasets are not too big, it should not matter too much, but once you enter millions of rows or have to load dozens of datasets, Polars really shines. Fair enough, for the I/O section, it did not make too much sense to compare scan&gt;collect with read_csv() (for reasons outlined above), but if you fully commit and combine scanning with the other data wrangling procedure described here, you will get the benefit. Even though, loading times alone are probably making a good case for trying Polars.</p>
