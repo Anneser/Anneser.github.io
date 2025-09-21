@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/polars_vs_pandas/index.html",
       "/blog/20250706/index.html",
       "/blog/20250517/index.html"
     ]

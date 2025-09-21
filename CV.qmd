@@ -109,7 +109,7 @@ Obergurgl, Austria
   
 - **Anneser L**, Satou C, Hotz HR, Friedrich R (2024).  
   [Molecular organization of neuronal cell types and neuromodulatory systems in the zebrafish telencephalon.](https://doi.org/10.1016/j.cub.2023.12.003)  
-  *Current Biology*, 34, 1–15. DOI: [10.1101/2023.10.04.560846](https://doi.org/10.1101/2023.10.04.560846)
+  *Current Biology*, 34, 1–15. DOI: [10.1016/j.cub.2023.12.003](https://doi.org/10.1016/j.cub.2023.12.003)
 
 - Gemmer A, Mirkes K, **Anneser L**, Eilers T, Kibat C, Mathuru A, Ryu S, Schuman EM (2022).  
   [Oxytocin receptors influence the development and maintenance of social behavior in zebrafish (*Danio rerio*).](https://doi.org/10.1101/2021.06.26.449566)  

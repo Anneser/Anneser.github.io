@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lukas Anneser">
+<meta name="dcterms.date" content="2025-09-21">
+
+<title>Cute Pandas and Fast Polars – Lukas Anneser</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f0462af1f1fab958f01fce22f6ac7405.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Lukas Anneser</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications.html"> 
+<span class="menu-text">publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../CV.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog/index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-analysis---the-cookbook" id="toc-data-analysis---the-cookbook" class="nav-link active" data-scroll-target="#data-analysis---the-cookbook">Data analysis - the cookbook</a></li>
+  <li><a href="#cute-pandas-fast-polars" id="toc-cute-pandas-fast-polars" class="nav-link" data-scroll-target="#cute-pandas-fast-polars">Cute Pandas, fast Polars</a></li>
+  <li><a href="#inputoutput" id="toc-inputoutput" class="nav-link" data-scroll-target="#inputoutput">Input/Output</a></li>
+  <li><a href="#filtering-operations" id="toc-filtering-operations" class="nav-link" data-scroll-target="#filtering-operations">Filtering Operations</a></li>
+  <li><a href="#grouping" id="toc-grouping" class="nav-link" data-scroll-target="#grouping">Grouping</a></li>
+  <li><a href="#merging-and-tidying-up" id="toc-merging-and-tidying-up" class="nav-link" data-scroll-target="#merging-and-tidying-up">Merging and Tidying up</a></li>
+  <li><a href="#comparison-of-pandas-and-polars-for-common-data-wrangling-procedures" id="toc-comparison-of-pandas-and-polars-for-common-data-wrangling-procedures" class="nav-link" data-scroll-target="#comparison-of-pandas-and-polars-for-common-data-wrangling-procedures">Comparison of Pandas and Polars for common data wrangling procedures</a></li>
+  <li><a href="#pros-and-cons" id="toc-pros-and-cons" class="nav-link" data-scroll-target="#pros-and-cons">Pros and Cons</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Cute Pandas and Fast Polars</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">working in science</div>
+    <div class="quarto-category">analysis</div>
+    <div class="quarto-category">programming</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lukas Anneser </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 21, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="data-analysis---the-cookbook" class="level1">
+<h1>Data analysis - the cookbook</h1>
+<p>If you analyse data using python, most likely you have developed some good out-of-the box routines you can apply to most of your datasets. Probably you start with a manual inspection of the data types, settle on a suitable approach to read in files, follow along with some sanity checks and solid data visualization to get a feeling for the data at hand. Most likely, though, you start by typing the following:</p>
+<div id="6af08ea4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Both NumPy and Pandas reliably make it to the top of the list of <a href="https://www.geeksforgeeks.org/blogs/python-libraries-to-know/">popular python libraries</a>. NumPy (short for <em>numerical python</em>) comes with a lot of inbuilt capabilities for handling arrays, making it a go-to library for scientific computing and machine learning. Pandas uses these powerful array-manipulation capabitilies and introduces <em>Series</em> (1D) and <em>DataFrames</em> (2D) and allows the user to rather easily slice through the dataset in different ways, compute central tendencies or other statistical descriptors for individual columns and rows. Additionally, it quite naturally can be connected to downstream libraries such as <a href="https://seaborn.pydata.org/index.html">seaborn</a> for data visualization.</p>
+<p>Basically all my pipelines at some point use pandas (and I am not alone with that), so it would be a huge leverage factor to speed up the storage and retrieval process regarding my data structures. Introducing: Polars.</p>
+</section>
+<section id="cute-pandas-fast-polars" class="level1">
+<h1>Cute Pandas, fast Polars</h1>
+<p>I happened to come across this library a little while ago and was intrigued by their promise: similar capabilites as Pandas, but at a fraction of the time needed for execution. The edge comes from two major factors: First, the library is written in Rust, known <a href="https://kornel.ski/rust-c-speed">to rival C</a>, in particular when it comes to parallelization. Second, it introduces lazy evaluation (computations are only executed when needed) and query optimization (we will come to that). On their website, [pola.rs][(https://pola.rs/)] (I do find it funny…), they claim a <a href="https://pola.rs/posts/benchmarks/">time advantage over pandas for a common data wrangling operation of roughly 90-fold</a>. If that is not enough to get you interested, you never had to run you pipeline over night (or several days) and reading further might be a genuine waste of time for you. Anyway, I wanted to see whether I get similar results. Some of the most typical operations you want to apply to your data concern I/O (input/output, so the reading and writing of files), computation of some sort with the data loaded in memory and the transformation of the dataset (e.g., to tidy format). I created three datasets with random numbers across three columns and 100.000, 1.000.000, or 5.000.000 rows. Obviously, there could be bigger datasets, but I daresay this should cover typical use cases. If you want to re-create this for yourself, here is the code for the random datasets:</p>
+<div id="764bd2cb" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time, gc, os, statistics <span class="im">as</span> stats</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># polars can be easily installed via pip install polars</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_sales(n_rows: <span class="bu">int</span>, out_file: <span class="bu">str</span>, seed: <span class="bu">int</span> <span class="op">=</span> <span class="dv">42</span>):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    store_ids <span class="op">=</span> rng.integers(<span class="dv">1</span>, <span class="dv">5000</span>, size<span class="op">=</span>n_rows, dtype<span class="op">=</span>np.int32)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    revenue <span class="op">=</span> rng.lognormal(mean<span class="op">=</span><span class="dv">5</span>, sigma<span class="op">=</span><span class="fl">1.0</span>, size<span class="op">=</span>n_rows).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    dates <span class="op">=</span> pd.to_datetime(<span class="st">"2020-01-01"</span>) <span class="op">+</span> pd.to_timedelta(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        rng.integers(<span class="dv">0</span>, <span class="dv">365</span>, size<span class="op">=</span>n_rows), unit<span class="op">=</span><span class="st">"D"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame({<span class="st">"store_id"</span>: store_ids, <span class="st">"revenue"</span>: revenue, <span class="st">"date"</span>: dates})</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    df.to_csv(out_file, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out_file</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"sales_100k.csv"</span>, <span class="dv">100_000</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"sales_1M.csv"</span>,   <span class="dv">1_000_000</span>),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"sales_5M.csv"</span>,   <span class="dv">5_000_000</span>),</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>generated <span class="op">=</span> []</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fname, n <span class="kw">in</span> paths:</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(fname):</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        make_sales(n, fname)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    generated.append((fname, n))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>generated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>[('sales_100k.csv', 100000),
+ ('sales_1M.csv', 1000000),
+ ('sales_5M.csv', 5000000)]</code></pre>
+</div>
+</div>
+<p>The cell above will create the three example datasets in the directory from which you run the script. I admit I was not very creative (sales.csv is a pretty common toy dataset), but feel free to adapt with columns and data types more suitable for your use cases. The next step was to create a quick function to time the execution of the typical data wrangling procedures:</p>
+<div id="8adb33ed" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timer_samples(fn, repeat<span class="op">=</span><span class="dv">5</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> gc, time, statistics <span class="im">as</span> stats</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    samples <span class="op">=</span> []</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(repeat):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        gc.collect()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        fn()</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        samples.append(time.perf_counter() <span class="op">-</span> t0)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"samples_s"</span>: samples,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"min_s"</span>: <span class="bu">min</span>(samples),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"median_s"</span>: stats.median(samples),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_s"</span>: <span class="bu">sum</span>(samples)<span class="op">/</span><span class="bu">len</span>(samples),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"std_s"</span>: (stats.pstdev(samples) <span class="cf">if</span> <span class="bu">len</span>(samples) <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> <span class="fl">0.0</span>),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fmt_ms(sec): </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">round</span>(sec <span class="op">*</span> <span class="dv">1000</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <em>timer</em> function executes a function several times and returns some parameters describing the execution speed. With this, we are now ready to get into polars vs pandas specifics.</p>
+</section>
+<section id="inputoutput" class="level1">
+<h1>Input/Output</h1>
+<p>Using Pandas, you load datasets typically with a built-in method such as <em>pd.read_csv()</em>. In Polars, the same operation comes in two flavors: Either you directly read in the dataset (<em>eager mode</em>) via <em>pl.read_csv()</em> (Polars was written with familiarity to Pandas in mind) or you use <em>lazy mode</em>. Here, you actually don’t directly load the dataset, but build a query plan via <em>pl.scan_csv()</em>. The plan can then be materialized later using the <em>collect()</em> command. If you immediately combine scanning and collecting, there is no advantage whatsoever, so <em>pl.scan_csv(path).collect()</em> does not make any sense. It shines when you combine the scanning with data wrangling procedures and collect in the end because here query optimization can make a huge difference. We get to this later. One interesting aspect about Polars is its way to parse datatypes. In Pandas, you would read in a .csv like this:</p>
+<pre><code>pd.read_csv(path, dtype={"integer_type": "int32"})</code></pre>
+<p>In Polars (eager mode), you do the following:</p>
+<pre><code>pl.read_csv(path, dtypes={"integer_type": pl.Int32})</code></pre>
+<p>Passing datatypes to I/O functions is good practice for a couple of reasons: You avoid surprises later on when you try to combine the values from two columns that have been assigned incompatible datatypes by under-the-hood inference of your I/O function. It also allows for memory-aware processing (Int32 allocates half the memory of Int64) which definitely comes in handy for large datasets. So, why does Polars assign the <em>pl.Int32</em> type? Because it is NOT based on NumPy! Instead, it uses Apache Arrows columnar memory with its own datatypes that map cleanly to Arrow and allows for query optimization.</p>
+</section>
+<section id="filtering-operations" class="level1">
+<h1>Filtering Operations</h1>
+<p>A typical step for any data analysis is filtering. Interested in particularly huge values? Filter. Care about cases within one standard deviation of the mean? Filter. Want to exclude outliers? Filter. Of course, both Pandas and Polars come with built-in capabilities for this. In Pandas, you can identify cases of interest by selecting a column and performing logical indexing:</p>
+<pre><code>df.loc[df["column1"] &gt; 1000, ["column1", "column2", "column4"]]</code></pre>
+<p>This command selects all rows of column 1 with a value over 1000 and returns the selected rows for columns 1, 2, and 4. In Polars, you get the same with</p>
+<pre><code>df.lazy()
+    .filter(pl.col("column1") &gt; 1000)
+    .select(["column1", "column2", "column4"])
+    .collect()</code></pre>
+<p>When you go for lazy mode, you might actually prefer to start with <em>pl.scan_csv()</em> to fully leverage Polars. For comparability, I assumed here that the dataset is already im memory.</p>
+</section>
+<section id="grouping" class="level1">
+<h1>Grouping</h1>
+<p>Often, we are interested in computing average values for certain groups within our data or compare the number of entries per category. This can be achieved by grouping operations and consecutive aggregation across the resulting groups. Here is an example for Pandas:</p>
+<pre><code>df.groupby("column1", as_index=False).agg(
+            column2_sum=("column2", "sum"),
+            n=("column2", "size"),
+            avg=("column2", "mean"))</code></pre>
+<p>We group across the different values of column 1 and compute the sum, number of entries, and average values for column 2 for all individual values of column 1. Here is the same approach in Polars:</p>
+<pre><code>df.lazy()
+    .group_by("column1")
+    .agg([
+        pl.col("column2").sum().alias("column2_sum"),
+        pl.count().alias("n"),
+        pl.col("column2").mean().alias("column2_avg"),
+        ])
+    .collect()</code></pre>
+<p>One neat feature of Polars is the <em>.alias()</em> function which allows you to compute values and assign the column name directly. As you can see, the the commands can easily be stacked and due to native multi-core usage, this allows for speedy processing. If you wanted to fully leverage Polars, you start by scanning the file, listing all operations you want to execute, leave it to polars to optimize the query plan and collect in the end.</p>
+</section>
+<section id="merging-and-tidying-up" class="level1">
+<h1>Merging and Tidying up</h1>
+<p>A last common approach is data reshaping. Many kinds of analysis require the dataset to exist in a certain format and not always is a simple transpose the answer. I implemented a simple merging and melting operation for both Pandas and Polars, now let us see how execution speed differs for the tasks outlined above. In the benchmarking, I differentiate between I/O and computation on loaded datasets but keep in mind that Polars really shines by combining scanning, computation, and collection.</p>
+<div id="32ae04e4" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Expand cell</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bench_one_dataset_sampled(path: <span class="bu">str</span>, repeat: <span class="bu">int</span> <span class="op">=</span> <span class="dv">7</span>):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> os</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(path):</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="ss">f"</span><span class="sc">{</span>path<span class="sc">}</span><span class="ss"> not found"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># --- IO variants</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pandas_read():</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.read_csv(path, dtype<span class="op">=</span>{<span class="st">"store_id"</span>: <span class="st">"int32"</span>}, parse_dates<span class="op">=</span>[<span class="st">"date"</span>])</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_read():</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pl.read_csv(path, dtypes<span class="op">=</span>{<span class="st">"store_id"</span>: pl.Int32, <span class="st">"date"</span>: pl.Date})</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_scan_collect():</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pl.scan_csv(path, dtypes<span class="op">=</span>{<span class="st">"store_id"</span>: pl.Int32, <span class="st">"date"</span>: pl.Date}).collect()</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    io_variants <span class="op">=</span> [</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"IO"</span>, <span class="st">"pandas read_csv"</span>, pandas_read),</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"IO"</span>, <span class="st">"polars read_csv"</span>, polars_read),</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"IO"</span>, <span class="st">"polars scan-&gt;collect"</span>, polars_scan_collect),</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    io_rows, io_samples <span class="op">=</span> [], []</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> phase, variant, fn <span class="kw">in</span> io_variants:</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> timer_samples(fn, repeat<span class="op">=</span>repeat)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        io_rows.append({</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">"dataset"</span>: path, <span class="st">"phase"</span>: phase, <span class="st">"variant"</span>: variant,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_ms"</span>: fmt_ms(res[<span class="st">"min_s"</span>]),</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">"median_ms"</span>: fmt_ms(res[<span class="st">"median_s"</span>]),</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mean_ms"</span>: fmt_ms(res[<span class="st">"mean_s"</span>]),</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">"std_ms"</span>: fmt_ms(res[<span class="st">"std_s"</span>]),</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n"</span>: repeat,</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, s <span class="kw">in</span> <span class="bu">enumerate</span>(res[<span class="st">"samples_s"</span>]):</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            io_samples.append({</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"dataset"</span>: path, <span class="st">"phase"</span>: phase, <span class="st">"variant"</span>: variant,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">"run"</span>: i<span class="op">+</span><span class="dv">1</span>, <span class="st">"ms"</span>: fmt_ms(s)</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Load once for compute timings</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    pdf  <span class="op">=</span> pandas_read()</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    pldf <span class="op">=</span> polars_read()</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tiny dim table</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    max_store <span class="op">=</span> <span class="bu">int</span>(pdf[<span class="st">"store_id"</span>].<span class="bu">max</span>())</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    dim_pd <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"store_id"</span>: pd.Series(<span class="bu">range</span>(<span class="dv">1</span>, max_store <span class="op">+</span> <span class="dv">1</span>), dtype<span class="op">=</span><span class="st">"int32"</span>),</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"region"</span>: (pd.Series(<span class="bu">range</span>(<span class="dv">1</span>, max_store <span class="op">+</span> <span class="dv">1</span>)) <span class="op">%</span> <span class="dv">20</span>).astype(<span class="st">"int8"</span>),</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    dim_pl <span class="op">=</span> pl.DataFrame(dim_pd)</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># --- Tasks </span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pandas_task1():</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> (pdf.loc[pdf[<span class="st">"revenue"</span>] <span class="op">&gt;</span> <span class="dv">1000</span>, [<span class="st">"store_id"</span>, <span class="st">"revenue"</span>, <span class="st">"date"</span>]]</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>                  .assign(rev_k<span class="op">=</span><span class="kw">lambda</span> d: d[<span class="st">"revenue"</span>]<span class="op">/</span><span class="fl">1000.0</span>))</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(out[<span class="st">"rev_k"</span>].<span class="bu">sum</span>())</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_task1_eager():</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> (pldf.<span class="bu">filter</span>(pl.col(<span class="st">"revenue"</span>) <span class="op">&gt;</span> <span class="dv">1000</span>)</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>                    .select([<span class="st">"store_id"</span>, <span class="st">"revenue"</span>, <span class="st">"date"</span>])</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>                    .with_columns((pl.col(<span class="st">"revenue"</span>)<span class="op">/</span><span class="fl">1000.0</span>).alias(<span class="st">"rev_k"</span>)))</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(out[<span class="st">"rev_k"</span>].<span class="bu">sum</span>())</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_task1_lazy():</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> (pldf.lazy()</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>                   .<span class="bu">filter</span>(pl.col(<span class="st">"revenue"</span>) <span class="op">&gt;</span> <span class="dv">1000</span>)</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>                   .select([<span class="st">"store_id"</span>, <span class="st">"revenue"</span>, <span class="st">"date"</span>])</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>                   .with_columns((pl.col(<span class="st">"revenue"</span>)<span class="op">/</span><span class="fl">1000.0</span>).alias(<span class="st">"rev_k"</span>))</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>                   .collect())</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(out[<span class="st">"rev_k"</span>].<span class="bu">sum</span>())</span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pandas_task2():</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>        g <span class="op">=</span> pdf.groupby(<span class="st">"store_id"</span>, as_index<span class="op">=</span><span class="va">False</span>).agg(</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>            revenue_sum<span class="op">=</span>(<span class="st">"revenue"</span>, <span class="st">"sum"</span>),</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>            n<span class="op">=</span>(<span class="st">"revenue"</span>, <span class="st">"size"</span>),</span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>            avg<span class="op">=</span>(<span class="st">"revenue"</span>, <span class="st">"mean"</span>),</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>        share <span class="op">=</span> pdf[<span class="st">"revenue"</span>] <span class="op">/</span> pdf[<span class="st">"revenue"</span>].<span class="bu">sum</span>()</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(g[<span class="st">"revenue_sum"</span>].<span class="bu">sum</span>() <span class="op">+</span> share.<span class="bu">sum</span>())</span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_task2_eager():</span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>        g <span class="op">=</span> (pldf.group_by(<span class="st">"store_id"</span>)</span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>                 .agg([</span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>                     pl.col(<span class="st">"revenue"</span>).<span class="bu">sum</span>().alias(<span class="st">"revenue_sum"</span>),</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>                     pl.count().alias(<span class="st">"n"</span>),</span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>                     pl.col(<span class="st">"revenue"</span>).mean().alias(<span class="st">"avg"</span>),</span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>                 ]))</span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>        df2 <span class="op">=</span> pldf.with_columns((pl.col(<span class="st">"revenue"</span>)<span class="op">/</span>pl.col(<span class="st">"revenue"</span>).<span class="bu">sum</span>()).alias(<span class="st">"share"</span>))</span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(g[<span class="st">"revenue_sum"</span>].<span class="bu">sum</span>() <span class="op">+</span> df2[<span class="st">"share"</span>].<span class="bu">sum</span>())</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_task2_lazy():</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>        g <span class="op">=</span> (pldf.lazy()</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>                 .group_by(<span class="st">"store_id"</span>)</span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>                 .agg([</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>                     pl.col(<span class="st">"revenue"</span>).<span class="bu">sum</span>().alias(<span class="st">"revenue_sum"</span>),</span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>                     pl.count().alias(<span class="st">"n"</span>),</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>                     pl.col(<span class="st">"revenue"</span>).mean().alias(<span class="st">"avg"</span>),</span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>                 ])</span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>                 .collect())</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>        df2 <span class="op">=</span> (pldf.lazy()</span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>                    .with_columns((pl.col(<span class="st">"revenue"</span>)<span class="op">/</span>pl.col(<span class="st">"revenue"</span>).<span class="bu">sum</span>()).alias(<span class="st">"share"</span>))</span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>                    .collect())</span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(g[<span class="st">"revenue_sum"</span>].<span class="bu">sum</span>() <span class="op">+</span> df2[<span class="st">"share"</span>].<span class="bu">sum</span>())</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pandas_task3():</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>        merged <span class="op">=</span> pdf.merge(dim_pd, on<span class="op">=</span><span class="st">"store_id"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>        tidy <span class="op">=</span> merged.melt(id_vars<span class="op">=</span>[<span class="st">"store_id"</span>, <span class="st">"date"</span>, <span class="st">"region"</span>],</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>                           value_vars<span class="op">=</span>[<span class="st">"revenue"</span>],</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>                           var_name<span class="op">=</span><span class="st">"metric"</span>, value_name<span class="op">=</span><span class="st">"value"</span>)</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(tidy)</span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_task3_eager():</span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>        merged <span class="op">=</span> pldf.join(dim_pl, on<span class="op">=</span><span class="st">"store_id"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>        tidy <span class="op">=</span> merged.melt(id_vars<span class="op">=</span>[<span class="st">"store_id"</span>, <span class="st">"date"</span>, <span class="st">"region"</span>],</span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>                           value_vars<span class="op">=</span>[<span class="st">"revenue"</span>],</span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>                           variable_name<span class="op">=</span><span class="st">"metric"</span>, value_name<span class="op">=</span><span class="st">"value"</span>)</span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> tidy.height</span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> polars_task3_lazy():</span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> (pldf.lazy()</span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a>                   .join(dim_pl.lazy(), on<span class="op">=</span><span class="st">"store_id"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>                   .melt(id_vars<span class="op">=</span>[<span class="st">"store_id"</span>, <span class="st">"date"</span>, <span class="st">"region"</span>],</span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>                         value_vars<span class="op">=</span>[<span class="st">"revenue"</span>],</span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>                         variable_name<span class="op">=</span><span class="st">"metric"</span>, value_name<span class="op">=</span><span class="st">"value"</span>)</span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>                   .collect())</span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> out.height</span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>    compute_variants <span class="op">=</span> [</span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Filter/Select/Transform"</span>, <span class="st">"pandas"</span>,        pandas_task1),</span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Filter/Select/Transform"</span>, <span class="st">"polars eager"</span>,  polars_task1_eager),</span>
+<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Filter/Select/Transform"</span>, <span class="st">"polars lazy"</span>,   polars_task1_lazy),</span>
+<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"GroupBy &amp; Window"</span>,        <span class="st">"pandas"</span>,        pandas_task2),</span>
+<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"GroupBy &amp; Window"</span>,        <span class="st">"polars eager"</span>,  polars_task2_eager),</span>
+<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"GroupBy &amp; Window"</span>,        <span class="st">"polars lazy"</span>,   polars_task2_lazy),</span>
+<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Join &amp; Melt"</span>,             <span class="st">"pandas"</span>,        pandas_task3),</span>
+<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Join &amp; Melt"</span>,             <span class="st">"polars eager"</span>,  polars_task3_eager),</span>
+<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Join &amp; Melt"</span>,             <span class="st">"polars lazy"</span>,   polars_task3_lazy),</span>
+<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a>    comp_rows, comp_samples <span class="op">=</span> [], []</span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> phase, variant, fn <span class="kw">in</span> compute_variants:</span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> timer_samples(fn, repeat<span class="op">=</span>repeat)</span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a>        comp_rows.append({</span>
+<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a>            <span class="st">"dataset"</span>: path, <span class="st">"phase"</span>: phase, <span class="st">"variant"</span>: variant,</span>
+<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_ms"</span>: fmt_ms(res[<span class="st">"min_s"</span>]),</span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a>            <span class="st">"median_ms"</span>: fmt_ms(res[<span class="st">"median_s"</span>]),</span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mean_ms"</span>: fmt_ms(res[<span class="st">"mean_s"</span>]),</span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a>            <span class="st">"std_ms"</span>: fmt_ms(res[<span class="st">"std_s"</span>]),</span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n"</span>: repeat,</span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, s <span class="kw">in</span> <span class="bu">enumerate</span>(res[<span class="st">"samples_s"</span>]):</span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a>            comp_samples.append({</span>
+<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a>                <span class="st">"dataset"</span>: path, <span class="st">"phase"</span>: phase, <span class="st">"variant"</span>: variant,</span>
+<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a>                <span class="st">"run"</span>: i<span class="op">+</span><span class="dv">1</span>, <span class="st">"ms"</span>: fmt_ms(s)</span>
+<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a>    summary_df <span class="op">=</span> pd.DataFrame(io_rows <span class="op">+</span> comp_rows)</span>
+<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a>    samples_df <span class="op">=</span> pd.DataFrame(io_samples <span class="op">+</span> comp_samples)</span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> summary_df, samples_df</span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the sampled benchmark for your three CSVs:</span></span>
+<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a>summary_list, samples_list <span class="op">=</span> [], []</span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fname, _ <span class="kw">in</span> generated:</span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a>    s, smp <span class="op">=</span> bench_one_dataset_sampled(fname, repeat<span class="op">=</span><span class="dv">7</span>)  </span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a>    summary_list.append(s)</span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a>    samples_list.append(smp)</span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.concat(summary_list, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>samples_df <span class="op">=</span> pd.concat(samples_list, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Take a quick look</span></span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>summary_df.head(), samples_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(          dataset                    phase               variant  min_ms  \
+ 0  sales_100k.csv                       IO       pandas read_csv    25.5   
+ 1  sales_100k.csv                       IO       polars read_csv     1.9   
+ 2  sales_100k.csv                       IO  polars scan-&gt;collect     2.9   
+ 3  sales_100k.csv  Filter/Select/Transform                pandas     1.1   
+ 4  sales_100k.csv  Filter/Select/Transform          polars eager     3.5   
+ 
+    median_ms  mean_ms  std_ms  n  
+ 0       26.2     26.5     0.9  7  
+ 1        2.0      2.3     0.7  7  
+ 2        3.1      3.4     0.7  7  
+ 3        1.2      1.3     0.2  7  
+ 4        3.6      3.7     0.3  7  ,
+           dataset phase          variant  run    ms
+ 0  sales_100k.csv    IO  pandas read_csv    1  27.9
+ 1  sales_100k.csv    IO  pandas read_csv    2  26.0
+ 2  sales_100k.csv    IO  pandas read_csv    3  25.9
+ 3  sales_100k.csv    IO  pandas read_csv    4  28.0
+ 4  sales_100k.csv    IO  pandas read_csv    5  25.5)</code></pre>
+</div>
+</div>
+</section>
+<section id="comparison-of-pandas-and-polars-for-common-data-wrangling-procedures" class="level1">
+<h1>Comparison of Pandas and Polars for common data wrangling procedures</h1>
+<p>Alright, let’s visualize the results:</p>
+<div id="62f5a8ff" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Expand cell</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouped bars: one figure per phase, three datasets in one plot</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _parse_size_from_name(ds: <span class="bu">str</span>):</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return (numeric_rows_for_sort, short_label) from a filename like 'sales_1M.csv'."""</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    stem <span class="op">=</span> Path(ds).stem</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> re.search(<span class="vs">r'</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="pp">[kKmM]</span><span class="op">?</span><span class="kw">)</span><span class="vs">'</span>, stem)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> m:</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="dv">0</span>, stem)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    val <span class="op">=</span> <span class="bu">int</span>(m.group(<span class="dv">1</span>))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    suf <span class="op">=</span> m.group(<span class="dv">2</span>).lower()</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    mult <span class="op">=</span> <span class="dv">1_000</span> <span class="cf">if</span> suf <span class="op">==</span> <span class="st">"k"</span> <span class="cf">else</span> (<span class="dv">1_000_000</span> <span class="cf">if</span> suf <span class="op">==</span> <span class="st">"m"</span> <span class="cf">else</span> <span class="dv">1</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (val <span class="op">*</span> mult, <span class="ss">f"</span><span class="sc">{</span>val<span class="sc">}{</span>suf<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">"</span> <span class="cf">if</span> suf <span class="cf">else</span> <span class="bu">str</span>(val))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_phase_grouped(summary: pd.DataFrame, phase: <span class="bu">str</span>, title_suffix: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span>, save<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Select phase and keep only the variants we care about, in a fixed order</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> phase <span class="op">==</span> <span class="st">"IO"</span>:</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        order <span class="op">=</span> [<span class="st">"pandas read_csv"</span>, <span class="st">"polars read_csv"</span>, <span class="st">"polars scan-&gt;collect"</span>]</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        order <span class="op">=</span> [<span class="st">"pandas"</span>, <span class="st">"polars eager"</span>, <span class="st">"polars lazy"</span>]</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> summary[summary[<span class="st">"phase"</span>] <span class="op">==</span> phase].copy()</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> df.empty:</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"(no rows for phase: </span><span class="sc">{</span>phase<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Datasets: sort by numeric size (100k &lt; 1M &lt; 5M, etc.)</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    datasets <span class="op">=</span> <span class="bu">sorted</span>(df[<span class="st">"dataset"</span>].unique(), key<span class="op">=</span><span class="kw">lambda</span> s: _parse_size_from_name(s)[<span class="dv">0</span>])</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    ds_labels <span class="op">=</span> [_parse_size_from_name(s)[<span class="dv">1</span>] <span class="cf">for</span> s <span class="kw">in</span> datasets]</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X locations (one group per variant)</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.arange(<span class="bu">len</span>(order))</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> <span class="fl">0.25</span>  <span class="co"># width of each bar</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, ds <span class="kw">in</span> <span class="bu">enumerate</span>(datasets):</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> df[df[<span class="st">"dataset"</span>] <span class="op">==</span> ds].copy()</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        d[<span class="st">"variant"</span>] <span class="op">=</span> pd.Categorical(d[<span class="st">"variant"</span>], categories<span class="op">=</span>order, ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> d.sort_values(<span class="st">"variant"</span>)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        heights <span class="op">=</span> d[<span class="st">"median_ms"</span>].astype(<span class="bu">float</span>).values</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        yerr    <span class="op">=</span> d[<span class="st">"std_ms"</span>].astype(<span class="bu">float</span>).values</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># shift each dataset’s bars sideways</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        plt.bar(x <span class="op">+</span> (i <span class="op">-</span> (<span class="bu">len</span>(datasets)<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span>) <span class="op">*</span> width, heights, width, yerr<span class="op">=</span>yerr, capsize<span class="op">=</span><span class="dv">6</span>, label<span class="op">=</span>ds_labels[i])</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>    plt.xticks(x, order, rotation<span class="op">=</span><span class="dv">15</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Time (ms, median ± std)"</span>)</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>phase<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> title_suffix:</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>        title <span class="op">+=</span> <span class="ss">f" — </span><span class="sc">{</span>title_suffix<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    plt.legend(title<span class="op">=</span><span class="st">"Rows"</span>)</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> save:</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> <span class="ss">f"plot_grouped_</span><span class="sc">{</span>phase<span class="sc">.</span>replace(<span class="st">' '</span>, <span class="st">'_'</span>)<span class="sc">.</span>lower()<span class="sc">}</span><span class="ss">.png"</span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        plt.savefig(out, dpi<span class="op">=</span><span class="dv">160</span>)</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage: one figure per phase, each shows 100k/1M/5M together</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"IO"</span>, title_suffix<span class="op">=</span><span class="st">"CSV read"</span>)</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"Filtering and Selecting"</span>)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"GroupBy"</span>)</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>plot_phase_grouped(summary_df, <span class="st">"Merging &amp; Melting"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(no rows for phase: Filtering and Selecting)
+(no rows for phase: GroupBy)
+(no rows for phase: Merging &amp; Melting)</code></pre>
+</div>
+</div>
+<p>As you can see, Polars does indeed deliver. If your datasets are not too big, it should not matter too much, but once you enter millions of rows or have to load dozens of datasets, Polars really shines. Fair enough, for the I/O section, it did not make too much sense to compare scan&gt;collect with read_csv() (for reasons outlined above), but if you fully commit and combine scanning with the other data wrangling procedure described here, you will get the benefit. Even though, loading times alone are probably making a good case for trying Polars.</p>
+</section>
+<section id="pros-and-cons" class="level1">
+<h1>Pros and Cons</h1>
+<p>Alright, this concludes the comparison. If you have large datasets, Polars makes a lot of sense for you to try. However, keep in mind that it comes at a cost: Pandas is still the predominant library for data manipulation and has a huge ecosystem. Chances are that questions regarding how to do things in Polars might be more difficult to answer than the same questions for Pandas. Another thing is downstream applicability. A lot of libraries are fine with Pandas.Series or DataFrames as input structures, but not many accept a Polars dataframe. You can in principle export Polars dataframes as Pandas structures, but that seems to be an ugly work-around.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="Anneser/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
